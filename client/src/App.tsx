@@ -15,7 +15,9 @@ const App: React.FC = () => {
     return (
         <StoreContext.Provider value={store}>
             <ServerContext.Provider value={server}>
+                <div className='app'>
                 <PageManager />
+                </div>
             </ServerContext.Provider>
         </StoreContext.Provider>
     );

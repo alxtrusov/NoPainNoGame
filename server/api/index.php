@@ -3,40 +3,27 @@
 error_reporting(1);
 
 header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: *');
 
+require_once('application/Answer.php');
 require_once('application/Application.php');
 
-function router($params) {
+function result($params) {
     $method = $params['method'];
     if ($method) {
         $app = new Application();
         switch ($method) {
-                // user
+            // user
             case 'login': return $app->login($params);
             case 'logout': return $app->logout($params);
             case 'registration': return $app->registration($params);
-                // chat
+            // chat
             case 'sendMessage': return $app->sendMessage($params);
             case 'getMessages': return $app->getMessages($params);
+            default: return ['error' => 102];
         }
     }
-    return false;
+    return ['error' => 101];
 }
 
-function answer($data) {
-    if ($data) {
-        return array(
-            'result' => 'ok',
-            'data' => $data
-        );
-    }
-    return array(
-        'result' => 'error',
-        'error' => array(
-            'code' => 9000,
-            'text' => 'unknown error'
-        )
-    );
-}
-
-echo json_encode(answer(router($_GET)));
+echo json_encode(Answer::response(result($_GET)), JSON_UNESCAPED_UNICODE);

@@ -7,12 +7,14 @@
 
 .app {
     position: relative;
-    width: 100%;
-    height: 100vh;
     display: flex;
-
     text-align: center;
     background-color: $main-theme;
+
+    padding: 20px;
+    margin: 10px;
+    border: solid $button-border-color 3px;
+    border-radius: 10px;
 }
 
 .absolute {

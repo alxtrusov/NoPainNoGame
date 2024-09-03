@@ -31,7 +31,10 @@ class Store {
     }
 
     addMessages(messages: TMessages): void {
-        this.messages.concat(messages);
+        // TODO сделать, чтобы работало вот так
+        //this.messages.concat(messages);
+        // а вот это - плохой код!
+        this.messages = messages;
     }
 
     getMessages(): TMessages {

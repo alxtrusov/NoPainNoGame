@@ -1,26 +1,76 @@
 <?php
 class DB {
+
+    private $pdo;
+
     function __construct() {
-        $this->MOCK_USER = new stdClass();
-        $this->MOCK_USER->id = 123;
-        $this->MOCK_USER->name = 'Vasya Pupkin';
+        $host = '127.0.0.1';
+        $port = '3306';
+        $user = 'root';
+        $pass = '';
+        $db = 'nopainnogame'
+
+        $connect = "mysql:host=$host;port=$port;dbname=$db;charset=utf8";
+        $this->pdo = new PDO($connect, $user, $pass);
+    }
+
+    public function __destruct() {
+        $this->pdo = null;
+    }
+
+    // выполнить запрос без возвращения данных
+    private function execute($sql, $params = []) {
+        $sth = $this->pdo->prepare($sql);
+        return $sth->execute($params);
+    }
+
+    // получение ОДНОЙ записи
+    private function query($sql, $params = []) {
+        $sth = $this->pdo->prepare($sql);
+        $sth->execute($params);
+        return $sth->fetch(PDO::FETCH_OBJ);
+    }
+
+    // получение НЕСКОЛЬКИХ записей
+    private function queryAll($sql, $params = []) {
+        $sth = $this->pdo->prepare($sql);
+        $sth->execute($params);
+        return $sth->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getUserByLogin($login, $password) {
-        if ($login === 'vasya' && $password === '123') {
-            return $this->MOCK_USER;
-        }
+        return $this->query("SELECT * FROM users WHERE login=?", [$login]);
     }
 
     public function getUserByToken($token) {
-        return $this->MOCK_USER;
+        return $this->query("SELECT * FROM users WHERE token=?", [$token]);
     }
 
-    public function updateToken($id, $token) {
-
+    public function updateToken($userId, $token) {
+        $this->execute("UPDATE users SET token=? WHERE id=?", [$token, $userId]);
     }
 
     public function registration($login, $password, $name) {
-        
+        $this->execute("INSERT INTO users (login,password,name) VALUES (?, ?, ?)",[$login, $hash, $name]);
+    }
+
+    public function getChatHash() {
+        return $this->query("SELECT * FROM hashes WHERE id=1");
+    }
+
+    public function updateChatHash($hash) {
+        $this->execute("UPDATE hashes SET chat_hash=? WHERE id=1", [$hash]);
+    }
+
+    public function addMessage($userId, $message) {
+        $this->execute('INSERT INTO messages (user_id, message, created) VALUES (?,?, now())', [$userId, $message]);
+    }
+
+    public function getMessages() {
+        return $this->queryAll("SELECT u.name AS name, m.message AS message,
+                                DATE_FORMAT(m.created,'%H:%i') AS created FROM messages as m 
+                                LEFT JOIN users as u on u.id = m.user_id 
+                                ORDER BY m.created DESC"
+        );
     }
 }

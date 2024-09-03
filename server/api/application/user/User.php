@@ -14,13 +14,13 @@ class User {
         if ($user) {
             $token = md5(rand());
             $this->db->updateToken($user->id, $token);
-            return array(
+            return [
                 'id' => $user->id,
                 'name' => $user->name,
                 'token' => $token
-            );
+            ];
         }
-        return null;
+        return ['error' => 1002];
     }
 
     public function logout($token) {
@@ -29,25 +29,25 @@ class User {
             $this->db->updateToken($user->id, null);
             return true;
         }
-        return null;
+        return ['error' => 1003];
     }
 
     public function registration($login, $password, $name) {
         $user = $this->db->getUserByLogin($login, $password);
         if ($user) {
-            return null;
+            return ['error' => 1001];
         }
         $this->db->registration($login, $password, $name);
         $user = $this->db->getUserByLogin($login, $password);
         if ($user) {
             $token = md5(rand());
             $this->db->updateToken($user->id, $token);
-            return array(
+            return [
                 'id' => $user->id,
                 'name' => $user->name,
                 'token' => $token
-            );
+            ];
         }
-        return null;
+        return ['error' => 1004];
     }
 }

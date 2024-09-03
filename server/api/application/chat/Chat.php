@@ -5,12 +5,24 @@
             $this->db = $db;
         }
 
-        public function sendMessage($params){
-
+        public function sendMessage($userId, $message) {
+            $this->db->addMessage($userId, $message);
+            $this->db->updateChatHash(md5(rand()));
+            return true;
         }
 
-        public function getMessages($params){
-            
+        public function getMessages($hash) {
+            $currentHash = $this->db->getChatHash();
+            if ($hash === $currentHash->chat_hash) {
+                return [
+                    'hash' => $hash
+                ];
+            }
+            $messages = $this->db->getMessages();
+            return [
+                'messages' => $messages,
+                'hash' => $currentHash->chat_hash
+            ];
         }
     }
     

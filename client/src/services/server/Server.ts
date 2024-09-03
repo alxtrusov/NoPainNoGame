@@ -64,7 +64,7 @@ class Server {
     }
 
     sendMessage(message: string): void {
-        this.request<boolean>('message', { message });
+        this.request<boolean>('sendMessage', { message });
     }
 
     async getMessages(): Promise<TMessages | null> {

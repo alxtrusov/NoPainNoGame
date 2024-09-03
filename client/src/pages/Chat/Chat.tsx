@@ -21,7 +21,9 @@ const Login: React.FC<IBasePage> = (props: IBasePage) => {
             setCount(count + 1);
         }
 
-        server.startChatMessages(newMessages);
+        if (user) {
+            server.startChatMessages(newMessages);
+        }
 
         return () => {
             server.stopChatMessages();
@@ -42,10 +44,10 @@ const Login: React.FC<IBasePage> = (props: IBasePage) => {
     const backClickHandler = () => setPage(PAGES.LOGIN);
 
     if (!user) {
-        return (<>
+        return (<div className='chat'>
             <h1>Что-то пошло не так =(</h1>
             <Button onClick={backClickHandler} text='Назад' />
-        </>)
+        </div>)
     }
 
     return (<div className='chat'>

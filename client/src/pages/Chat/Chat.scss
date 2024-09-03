@@ -1,4 +1,6 @@
 .chat {
+    display: flex;
+    flex-direction: column;
 
     &-inputs {
         display: flex;
