@@ -15,9 +15,7 @@ const Login: React.FC<IBasePage> = (props: IBasePage) => {
         if (loginRef.current && passwordRef.current) {
             const login = loginRef.current.value;
             const password = passwordRef.current.value;
-            if (1 || (
-                login && password && await server.login(login, password)
-            )) {
+            if (login && password && await server.login(login, password)) {
                 setPage(PAGES.CHAT);
             }
         }

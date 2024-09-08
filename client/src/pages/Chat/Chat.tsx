@@ -11,14 +11,14 @@ const Login: React.FC<IBasePage> = (props: IBasePage) => {
     const server = useContext(ServerContext);
     const store = useContext(StoreContext);
     const [messages, setMessages] = useState<TMessages>([]);
-    const [count, setCount] = useState<number>(0);
+    const [_, setHash] = useState<string>('');
     const messageRef = useRef<HTMLInputElement>(null);
     const user = store.getUser();
 
     useEffect(() => {
-        const newMessages = () => {
+        const newMessages = (hash: string) => {
             setMessages(store.getMessages());
-            setCount(count + 1);
+            setHash(hash);
         }
 
         if (user) {

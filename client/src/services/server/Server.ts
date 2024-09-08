@@ -1,7 +1,7 @@
 import md5 from 'md5';
 import CONFIG from "../../config";
 import Store from "../store/Store";
-import { TAnswer, TError, TMessages, TMessagesResponse, TUser } from "./types";
+import { TAnswer, TError, TMessagesResponse, TUser } from "./types";
 
 const { CHAT_TIMESTAMP, HOST } = CONFIG;
 
@@ -9,6 +9,7 @@ class Server {
     HOST = HOST;
     store: Store;
     chatInterval: NodeJS.Timer | null = null;
+    showErrorCb: (error: TError) => void = () => {};
 
     constructor(store: Store) {
         this.store = store;
@@ -16,10 +17,6 @@ class Server {
 
     // посылает запрос и обрабатывает ответ
     private async request<T>(method: string, params: { [key: string]: string } = {}): Promise<T | null> {
-        const unknownError: TError = {
-            code: 9000,
-            text: 'Unknown error',
-        }
         try {
             params.method = method;
             const token = this.store.getToken();
@@ -31,13 +28,24 @@ class Server {
             if (answer.result === 'ok' && answer.data) {
                 return answer.data;
             }
+            answer.error && this.setError(answer.error);
             return null;
-            //return answer.error || unknownError;
         } catch (e) {
             console.log(e);
+            this.setError({
+                code: 9000,
+                text: 'Unknown error',
+            });
             return null;
-            //return unknownError;
         }
+    }
+
+    private setError(error: TError): void {
+        this.showErrorCb(error);
+    }
+
+    showError(cb: (error: TError) => void) {
+        this.showErrorCb = cb;
     }
 
     async login(login: string, password: string): Promise<boolean> {
@@ -67,22 +75,23 @@ class Server {
         this.request<boolean>('sendMessage', { message });
     }
 
-    async getMessages(): Promise<TMessages | null> {
+    async getMessages(): Promise<TMessagesResponse | null> {
         const hash = this.store.getChatHash();
         const result = await this.request<TMessagesResponse>('getMessages', { hash });
         if (result) {
             this.store.setChatHash(result.hash);
-            return result.messages;
+            return result;
         }
         return null;
     }
 
-    startChatMessages(cb: () => void): void {
+    startChatMessages(cb: (hash: string) => void): void {
         this.chatInterval = setInterval(async () => {
-            const messages = await this.getMessages();
-            if (messages) {
+            const result = await this.getMessages();
+            if (result) {
+                const { messages, hash } = result;
                 this.store.addMessages(messages);
-                cb();
+                cb(hash);
             }
         }, CHAT_TIMESTAMP);
 
