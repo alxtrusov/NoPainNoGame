@@ -17,8 +17,11 @@ const Login: React.FC<IBasePage> = (props: IBasePage) => {
 
     useEffect(() => {
         const newMessages = (hash: string) => {
-            setMessages(store.getMessages());
-            setHash(hash);
+            const messages = store.getMessages();
+            if (messages?.length) {
+                setMessages(messages);
+                setHash(hash);
+            }
         }
 
         if (user) {
@@ -57,7 +60,7 @@ const Login: React.FC<IBasePage> = (props: IBasePage) => {
             <span>{user.name}</span>
         </div>
         <div className='chat-messages'>
-            {messages.map((message, index) => <div key={index}>{`${message.author}: ${message.text}`}</div>)}
+            {messages.reverse().map((message, index) => <div key={index}>{`${message.author} (${message.created}): ${message.message}`}</div>)}
         </div>
         {input}
         <div className='chat-buttons'>

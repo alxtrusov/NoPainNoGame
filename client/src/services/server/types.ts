@@ -15,8 +15,9 @@ export type TUser = {
 }
 
 export type TMessage = {
-    text: string;
+    message: string;
     author: string;
+    created: string;
 }
 
 export type TMessages = TMessage[];

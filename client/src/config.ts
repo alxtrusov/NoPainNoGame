@@ -1,5 +1,5 @@
 const CONFIG = {
-    HOST: 'http://first.local/api',
+    HOST: 'http://nopainnogame.local/api',
 
     CHAT_TIMESTAMP: 200, //ms
 };

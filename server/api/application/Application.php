@@ -11,8 +11,8 @@ class Application {
     }
 
     public function login($params) {
-        if ($params['login'] && $params['password']) {
-            return $this->user->login($params['login'], $params['password']);
+        if ($params['login'] && $params['hash'] && $params['rnd']) {
+            return $this->user->login($params['login'], $params['hash'], $params['rnd']);
         }
         return ['error' => 242];
     }

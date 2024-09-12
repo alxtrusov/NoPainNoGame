@@ -5,7 +5,7 @@ const TOKEN = 'token';
 class Store {
     user: TUser | null = null;
     messages: TMessages = [];
-    chatHash: string = '';
+    chatHash: string = 'empty chat hash';
 
     setToken(token: string): void {
         localStorage.setItem(TOKEN, token);
@@ -34,7 +34,9 @@ class Store {
         // TODO сделать, чтобы работало вот так
         //this.messages.concat(messages);
         // а вот это - плохой код!
-        this.messages = messages;
+        if (messages?.length) {
+            this.messages = messages;
+        }
     }
 
     getMessages(): TMessages {
