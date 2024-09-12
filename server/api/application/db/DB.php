@@ -8,7 +8,7 @@ class DB {
         $port = '3306';
         $user = 'root';
         $pass = '';
-        $db = 'nopainnogame'
+        $db = 'nopainnogame';
 
         $connect = "mysql:host=$host;port=$port;dbname=$db;charset=utf8";
         $this->pdo = new PDO($connect, $user, $pass);
