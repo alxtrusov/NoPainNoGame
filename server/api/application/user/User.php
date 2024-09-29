@@ -1,6 +1,6 @@
 <?php
-class User {
 
+class User {
     function __construct($db) {
         $this->db = $db;
     }

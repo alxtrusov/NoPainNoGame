@@ -24,9 +24,6 @@ class Answer {
         '800' => 'not found object',
         '801' => 'unknown state',
         '1001' => 'params login or password not set',
-        
-        
-        
         '1005' => 'Other user is playing wright now. If you doesn`t, please change the password',
         '1006' => 'user with this email is already registered',
         '9000' => 'unknown error'
@@ -57,7 +54,5 @@ class Answer {
                 'text' => self::$CODES[$code]
             ]
         ];
-
     }
-
 }
