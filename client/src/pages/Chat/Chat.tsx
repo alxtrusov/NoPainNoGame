@@ -6,7 +6,7 @@ import { IBasePage, PAGES } from '../PageManager';
 
 import './Chat.scss';
 
-const Login: React.FC<IBasePage> = (props: IBasePage) => {
+const Chat: React.FC<IBasePage> = (props: IBasePage) => {
     const { setPage } = props;
     const server = useContext(ServerContext);
     const store = useContext(StoreContext);
@@ -70,4 +70,4 @@ const Login: React.FC<IBasePage> = (props: IBasePage) => {
     </div>)
 }
 
-export default Login;
+export default Chat;

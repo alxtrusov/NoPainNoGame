@@ -29,5 +29,4 @@ const PageManager: React.FC = () => {
     );
 }
 
-
 export default PageManager;

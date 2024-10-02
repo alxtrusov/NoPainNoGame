@@ -11,12 +11,10 @@ class Answer {
         '1003' => 'Error to logout user',
         '1004' => 'Error to register user',
         '1005' => 'User is no exists',
-
         '404' => 'not found',
         '605' => 'invalid teamId',
         '700' => 'No skins',
         '701' => 'Skin is not found',
-        
         '706' => 'text message is empty',
         '707' => 'could not send message', // e-mail;
         '708' => 'invalid code from E-mail',
@@ -24,9 +22,6 @@ class Answer {
         '800' => 'not found object',
         '801' => 'unknown state',
         '1001' => 'params login or password not set',
-        
-        
-        
         '1005' => 'Other user is playing wright now. If you doesn`t, please change the password',
         '1006' => 'user with this email is already registered',
         '9000' => 'unknown error'
@@ -57,7 +52,5 @@ class Answer {
                 'text' => self::$CODES[$code]
             ]
         ];
-
     }
-
 }
