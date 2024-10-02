@@ -1,6 +1,6 @@
 <?php
-class DB {
 
+class DB {
     private $pdo;
 
     function __construct() {

@@ -1,6 +1,6 @@
 <?php   
-class Chat{
 
+class Chat{
     function __construct($db) {
         $this->db = $db;
     }
