@@ -44,11 +44,14 @@ const Chat: React.FC<IBasePage> = (props: IBasePage) => {
             }
         }
     }
+    const toGameClickHandler = () => setPage(PAGES.GAME);
     const backClickHandler = () => setPage(PAGES.LOGIN);
 
     if (!user) {
         return (<div className='chat'>
+            <h1>Чат</h1>
             <h1>Что-то пошло не так =(</h1>
+            <Button onClick={toGameClickHandler} text='В игру!' />
             <Button onClick={backClickHandler} text='Назад' />
         </div>)
     }
@@ -65,6 +68,7 @@ const Chat: React.FC<IBasePage> = (props: IBasePage) => {
         {input}
         <div className='chat-buttons'>
             <Button onClick={sendClickHandler} text='Отправить' />
+            <Button onClick={toGameClickHandler} text='В игру!' />
             <Button onClick={backClickHandler} text='Назад' />
         </div>
     </div>)
